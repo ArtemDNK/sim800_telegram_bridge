@@ -63,6 +63,7 @@ int getSignalQuality() {
 
 String getSignalText(int csq) {
   if (csq == -1) return "Нет данных";
+  if (csq == 99) return "Нет сигнала";
   if (csq <= 5)  return "Очень слабый";
   if (csq <= 10) return "Слабый";
   if (csq <= 15) return "Средний";
@@ -237,7 +238,7 @@ void onTelegramMessage(FB_msg& msg) {
   }
   else if (text == "/status") {
     int csq = getSignalQuality();
-    int percent = (csq == -1) ? 0 : map(csq, 0, 31, 0, 100);
+    int percent = (csq < 0 || csq > 31) ? 0 : map(csq, 0, 31, 0, 100);
 
     char buf[450];
     snprintf(buf, sizeof(buf),

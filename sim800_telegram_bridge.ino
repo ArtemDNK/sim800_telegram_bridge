@@ -303,7 +303,7 @@ void processLine() {
       } else {
         char msgBuf[400];
         snprintf(msgBuf, sizeof(msgBuf),
-                 "📩 *SMS от:* `%s`\n💬 %s",
+                 "📩 SMS от: %s\n💬 %s",
                  sender, mypdu.getText());
         notifyWithBlockButton(msgBuf, sender);
       }
@@ -349,9 +349,9 @@ void processLine() {
     } else {
       char msg[200];
       snprintf(msg, sizeof(msg),
-               "📞 *Входящий звонок*\nНомер: `%s`%s",
+               "📞 Входящий звонок\nНомер: %s%s",
                caller,
-               AUTO_HANGUP ? "\n_(автоотбой)_" : "");
+               AUTO_HANGUP ? "\n(автоотбой)" : "");
 
       notifyWithBlockButton(msg, caller);
 
@@ -403,7 +403,7 @@ void onTelegramMessage(FB_msg& msg) {
     body.trim();
     int sp = body.indexOf(' ');
     if (sp < 3) {
-      bot.sendMessage("❌ Формат: `/sms +79001234567 Привет, как дела?`");
+      bot.sendMessage("❌ Формат: /sms +79001234567 Привет, как дела?");
       return;
     }
 
@@ -422,9 +422,9 @@ void onTelegramMessage(FB_msg& msg) {
 
     char buf[600];
     snprintf(buf, sizeof(buf),
-             "📊 *Статус устройства*\n\n"
-             "🌐 WiFi: `%s`\n"
-             "IP: `%s`\n"
+             "📊 Статус устройства\n\n"
+             "🌐 WiFi: %s\n"
+             "IP: %s\n"
              "📶 GSM: %d (%d%%) — %s\n"
              "Автоотбой: %s\n"
              "Звонок: %s\n"
@@ -498,7 +498,7 @@ void onTelegramMessage(FB_msg& msg) {
   }
   else if (text == "/help" || text == "/start") {
     bot.sendMessage(
-      "📋 *Команды:*\n\n"
+      "📋 Команды:\n\n"
       "/sms +номер текст — отправить SMS\n"
       "/status — статус\n"
       "/block номер|имя — в спам-лист\n"
@@ -538,7 +538,7 @@ void loop() {
     smsPending = false;
     sendSMS(smsNumber, smsText);
     char buf[90];
-    snprintf(buf, sizeof(buf), "✅ SMS отправлен на `%s`", smsNumber);
+    snprintf(buf, sizeof(buf), "✅ SMS отправлен на %s", smsNumber);
     bot.sendMessage(buf);
     smsNumber[0] = '\0';
     smsText[0] = '\0';
